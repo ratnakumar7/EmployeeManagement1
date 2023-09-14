@@ -37,7 +37,7 @@ public class JobDepartmentServiceImpl implements JobDepartmentService {
     @Override
     public JobDepartmentDto getOneJob(Long jobId) {
        JobDepartment jobDepartment = jobDepartmentRepository.findById(jobId)
-            .orElseThrow(()->new RuntimeException(""The JobDepartmentId "+jobId+" is not found "));
+            .orElseThrow(()->new RuntimeException("The JobDepartmentId "+jobId+" is not found "));
         return modelMapper.map(jobDepartment,JobDepartmentDto.class);
     }
 
