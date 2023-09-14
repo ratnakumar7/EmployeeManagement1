@@ -14,13 +14,13 @@ import java.util.Optional;
 
 @Service
 public class JobDepartmentServiceImpl implements JobDepartmentService {
-    private final JobDepartmentRepository jobDepartmentRepository;
+    
+    @Autowired
+    private JobDepartmentRepository jobDepartmentRepository;
+    
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    public JobDepartmentServiceImpl(JobDepartmentRepository jobDepartmentRepository) {
-        this.jobDepartmentRepository = jobDepartmentRepository;
-    }
+    
     @Override
     public JobDepartmentDto jobData(JobDepartmentDto jobDepartmentDto) {
         JobDepartment jobDepartment = modelMapper.map(jobDepartmentDto, JobDepartment.class);
@@ -30,7 +30,9 @@ public class JobDepartmentServiceImpl implements JobDepartmentService {
     @Override
     public List<JobDepartmentDto> getAllJob() {
         List<JobDepartment> jd = jobDepartmentRepository.findAll();
-        return modelMapper.map(jd,new TypeToken<List<JobDepartmentDto>>(){}.getType());
+        return jd.stream()
+            .map(details -> modelMapper.map(details,JobDepartmentDto.class))
+            .collect(Collectors.toList());
     }
 
     @Override
