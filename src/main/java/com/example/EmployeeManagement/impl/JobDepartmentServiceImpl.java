@@ -5,7 +5,6 @@ import com.example.EmployeeManagement.payload.JobDepartmentDto;
 import com.example.EmployeeManagement.repository.JobDepartmentRepository;
 import com.example.EmployeeManagement.service.JobDepartmentService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +36,9 @@ public class JobDepartmentServiceImpl implements JobDepartmentService {
 
     @Override
     public JobDepartmentDto getOneJob(Long jobId) {
-        jobDepartmentRepository.findById(jobId).orElseThrow(()->new RuntimeException(""));
-        return null;
+       JobDepartment jobDepartment = jobDepartmentRepository.findById(jobId)
+            .orElseThrow(()->new RuntimeException(""The JobDepartmentId "+jobId+" is not found "));
+        return modelMapper.map(jobDepartment,JobDepartmentDto.class);
     }
 
     @Override
